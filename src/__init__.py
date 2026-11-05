@@ -1,0 +1,1 @@
+"""VibeFinder 1.0 - a CLI-first music recommender simulation."""
