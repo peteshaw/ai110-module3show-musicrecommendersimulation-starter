@@ -2,13 +2,16 @@
 
 Pipeline:  data/songs.csv -> load_songs() -> score_song() (one song)
            -> recommend_songs() (whole list, ranked) -> terminal table.
+           data/profiles.json -> load_profiles() -> taste profiles for the CLI.
 """
 
 import csv
+import json
 import os
 
-# Path to the catalog, resolved relative to this file so it works from anywhere.
+# Paths to the data files, resolved relative to this file so they work from anywhere.
 DATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "songs.csv")
+PROFILES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "profiles.json")
 
 # --- Feature typing ---------------------------------------------------------
 # Every column the maths touches must leave the CSV as a number, not a string.
@@ -113,6 +116,60 @@ def _to_number(key, value):
         return int(float(text)) if key in INT_FIELDS else float(text)
     except (TypeError, ValueError):
         return 0
+
+# --- Taste profiles ---------------------------------------------------------
+# Profiles are data, not code: they live in data/profiles.json so a new
+# listener can be added by editing a file instead of editing main.py.
+# score_song() only ever calls .get() on a profile, so every key is optional
+# and an unknown key is simply ignored.
+PROFILE_FLOAT_FIELDS = ("target_energy", "target_danceability", "target_acousticness")
+PROFILE_INT_FIELDS = ("target_tempo_bpm", "min_popularity", "target_decade")
+PROFILE_UNIT_FIELDS = ("target_energy", "target_danceability", "target_acousticness")
+
+def load_profiles(path=PROFILES_PATH):
+    """Read data/profiles.json and return {name: profile_dict}.
+
+    Numeric targets are cast to float/int so a hand-edited file cannot hand
+    score_song() a string. Raises ValueError on a malformed file or a profile
+    with an out-of-range value, so a bad edit fails loudly at startup rather
+    than silently mis-scoring every song.
+    """
+    with open(path, encoding="utf-8") as f:
+        try:
+            raw = json.load(f)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"{path}: not valid JSON ({exc})") from exc
+    if not isinstance(raw, dict) or not raw:
+        raise ValueError(f"{path}: expected a non-empty object of profiles")
+
+    profiles = {}
+    for name, prefs in raw.items():
+        if not isinstance(prefs, dict):
+            raise ValueError(f"{path}: profile {name!r} must be an object")
+        profile = dict(prefs)
+        for key in PROFILE_FLOAT_FIELDS:
+            if key in profile:
+                profile[key] = _profile_number(name, key, profile[key], float)
+        for key in PROFILE_INT_FIELDS:
+            if key in profile:
+                profile[key] = _profile_number(name, key, profile[key], int)
+        if "mood_tags" in profile:
+            tags = profile["mood_tags"]
+            if not isinstance(tags, list) or not all(isinstance(t, str) for t in tags):
+                raise ValueError(f"{path}: profile {name!r} mood_tags must be a list of strings")
+        for key in PROFILE_UNIT_FIELDS:
+            if key in profile and not 0.0 <= profile[key] <= 1.0:
+                raise ValueError(
+                    f"{path}: profile {name!r} {key}={profile[key]} is outside 0.0-1.0"
+                )
+        profiles[name] = profile
+    return profiles
+
+def _profile_number(name, key, value, cast):
+    """Cast one profile value, raising ValueError instead of guessing."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"profile {name!r}: {key} must be a number, got {value!r}")
+    return cast(value)
 
 # ---------------------------------------------------------------------------
 # Scoring one song  (the "judge")

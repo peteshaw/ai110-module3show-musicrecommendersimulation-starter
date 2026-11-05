@@ -7,8 +7,14 @@ import sys
 
 sys.path.insert(0, ".")
 
-from src.main import EXPERIMENTS, PROFILES  # noqa: E402
-from src.recommender import SCORING_MODES, load_songs, max_score, recommend_songs  # noqa: E402
+from src.main import EXPERIMENTS  # noqa: E402
+from src.recommender import (  # noqa: E402
+    SCORING_MODES,
+    load_profiles,
+    load_songs,
+    max_score,
+    recommend_songs,
+)
 
 def top_names(prefs, songs, k=5, mode="balanced", diversify=True):
     return [r["song"]["title"] for r in recommend_songs(
@@ -16,11 +22,12 @@ def top_names(prefs, songs, k=5, mode="balanced", diversify=True):
 
 def main():
     songs = load_songs()
+    profiles = load_profiles()
     print(f"Catalog: {len(songs)} songs\n")
 
     print("=== A. Every profile, balanced mode, top 5 ===")
     baseline = {}
-    for name, prefs in PROFILES.items():
+    for name, prefs in profiles.items():
         results = recommend_songs(prefs, songs, k=5)
         baseline[name] = [r["song"]["title"] for r in results]
         print(f"\n{name}  ({prefs['label']})")
@@ -30,7 +37,7 @@ def main():
                   f"score={r['score']:.2f} final={r['final_score']:.2f}")
 
     print("\n\n=== B. Do different profiles actually get different songs? ===")
-    names = list(PROFILES)
+    names = list(profiles)
     for i, a in enumerate(names):
         for b in names[i + 1:]:
             overlap = len(set(baseline[a]) & set(baseline[b]))
@@ -38,7 +45,7 @@ def main():
                   f"{sorted(set(baseline[a]) & set(baseline[b]))}")
 
     print("\n\n=== C. Sensitivity experiments on pop_happy (balanced) ===")
-    prefs = PROFILES["pop_happy"]
+    prefs = profiles["pop_happy"]
     print(f"  baseline    : {top_names(prefs, songs)}")
     for exp_name, override in EXPERIMENTS.items():
         mode = dict(SCORING_MODES["balanced"])
@@ -47,7 +54,7 @@ def main():
         print(f"  {'':12s}  (max possible score now {max_score(mode):.2f})")
 
     print("\n  Diversity penalty OFF vs ON for chill_lofi:")
-    prefs = PROFILES["chill_lofi"]
+    prefs = profiles["chill_lofi"]
     print(f"    OFF: {top_names(prefs, songs, diversify=False)}")
     print(f"    ON : {top_names(prefs, songs, diversify=True)}")
 

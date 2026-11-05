@@ -12,6 +12,7 @@ try:
     from .recommender import (
         SCORING_MODES,
         format_recommendations,
+        load_profiles,
         load_songs,
         max_score,
         mode_label,
@@ -21,103 +22,17 @@ except ImportError:  # pragma: no cover
     from recommender import (  # type: ignore
         SCORING_MODES,
         format_recommendations,
+        load_profiles,
         load_songs,
         max_score,
         mode_label,
         recommend_songs,
     )
 
-# ---------------------------------------------------------------------------
-# Taste profiles. "label" is display-only; everything else is read by
-# score_song(). Realistic profiles first, adversarial "trick" profiles after.
-# ---------------------------------------------------------------------------
-PROFILES = {
-    "pop_happy": {
-        "label": "Happy Pop (default)",
-        "favorite_genre": "pop",
-        "favorite_mood": "happy",
-        "target_energy": 0.80,
-        "target_tempo_bpm": 120,
-        "target_danceability": 0.80,
-        "target_acousticness": 0.10,
-        "mood_tags": ["euphoric", "playful"],
-        "min_popularity": 60,
-        "target_decade": 2020,
-    },
-    "chill_lofi": {
-        "label": "Chill Lofi / Study",
-        "favorite_genre": "lofi",
-        "favorite_mood": "chill",
-        "target_energy": 0.22,
-        "target_tempo_bpm": 85,
-        "target_danceability": 0.60,
-        "target_acousticness": 0.85,
-        "mood_tags": ["calm", "focused"],
-        "min_popularity": 40,
-        "target_decade": 2010,
-    },
-    "intense_rock": {
-        "label": "Deep Intense Rock",
-        "favorite_genre": "rock",
-        "favorite_mood": "intense",
-        "target_energy": 0.90,
-        "target_tempo_bpm": 140,
-        "target_danceability": 0.55,
-        "target_acousticness": 0.08,
-        "mood_tags": ["aggressive", "gritty"],
-        "min_popularity": 50,
-        "target_decade": 2000,
-    },
-    "edge_gym_sad": {
-        "label": "EDGE: high energy but sad mood (conflicting)",
-        "favorite_genre": "pop",
-        "favorite_mood": "sad",
-        "target_energy": 0.92,
-        "target_tempo_bpm": 128,
-        "target_danceability": 0.90,
-        "target_acousticness": 0.05,
-        "mood_tags": ["aggressive"],
-        "min_popularity": 80,
-        "target_decade": 2020,
-    },
-    "edge_acoustic_edm": {
-        "label": "EDGE: EDM genre but acoustic/mellow (conflicting)",
-        "favorite_genre": "edm",
-        "favorite_mood": "chill",
-        "target_energy": 0.95,
-        "target_tempo_bpm": 128,
-        "target_danceability": 0.90,
-        "target_acousticness": 0.90,
-        "mood_tags": ["peaceful"],
-        "min_popularity": 30,
-        "target_decade": 2020,
-    },
-    "edge_off_catalog": {
-        "label": "EDGE: genre/mood that do not exist in the catalog (cold start)",
-        "favorite_genre": "vaporwave",
-        "favorite_mood": "dreamy",
-        "target_energy": 0.50,
-        "target_tempo_bpm": 100,
-        "target_danceability": 0.50,
-        "target_acousticness": 0.50,
-        "mood_tags": ["night-drive"],
-        "min_popularity": 99,
-        "target_decade": 1980,
-    },
-    "edge_all_mid": {
-        "label": "EDGE: every target dead-center (does the energy weight break ties?)",
-        "favorite_genre": "pop",
-        "favorite_mood": "happy",
-        "target_energy": 0.50,
-        "target_tempo_bpm": 110,
-        "target_danceability": 0.50,
-        "target_acousticness": 0.50,
-        "mood_tags": [],
-        "min_popularity": 50,
-        "target_decade": 2010,
-    },
-}
-
+# Taste profiles live in data/profiles.json (loaded by load_profiles()) so a
+# new listener can be added by editing data, not code. "label" is display-only;
+# everything else is read by score_song(). Realistic profiles first,
+# adversarial "trick" profiles after.
 DEFAULT_PROFILE = "pop_happy"
 
 def print_results(profile_name, prefs, songs, mode, k, diversify):
@@ -167,11 +82,11 @@ def resolve_mode(mode_name, experiment):
     override = EXPERIMENTS[experiment]
     return override, f"{mode_name} + {experiment} {override}"
 
-def build_parser():
+def build_parser(profiles):
     """Define the CLI surface."""
     parser = argparse.ArgumentParser(description="VibeFinder 1.0 - content-based music recommender")
     parser.add_argument("--profile", default=DEFAULT_PROFILE,
-                        help=f"profile name, or 'all'. Options: {', '.join(PROFILES)}")
+                        help=f"profile name, or 'all'. Options: {', '.join(profiles)}")
     parser.add_argument("--mode", default="balanced", choices=sorted(SCORING_MODES),
                         help="scoring/ranking strategy")
     parser.add_argument("--k", type=int, default=5, help="how many recommendations to show")
@@ -184,10 +99,11 @@ def build_parser():
 
 def main(argv=None):
     """Load the catalog and print recommendations for one or all profiles."""
-    args = build_parser().parse_args(argv)
+    profiles = load_profiles()
+    args = build_parser(profiles).parse_args(argv)
 
     if args.list_profiles:
-        for name, prefs in PROFILES.items():
+        for name, prefs in profiles.items():
             print(f"{name:20s} {prefs.get('label', '')}")
         return 0
 
@@ -197,15 +113,15 @@ def main(argv=None):
           f"{len({s['mood'] for s in songs})} moods.\n")
 
     if args.profile == "all":
-        names = list(PROFILES)
-    elif args.profile in PROFILES:
+        names = list(profiles)
+    elif args.profile in profiles:
         names = [args.profile]
     else:
         raise SystemExit(f"Unknown profile {args.profile!r}. Try --list-profiles")
 
     mode_obj, _ = resolve_mode(args.mode, args.experiment)
     for name in names:
-        print_results(name, PROFILES[name], songs, mode_obj, args.k, not args.no_diversity)
+        print_results(name, profiles[name], songs, mode_obj, args.k, not args.no_diversity)
 
     print("Done. Re-run with --mode energy_focused or --no-diversity to compare strategies.")
     return 0

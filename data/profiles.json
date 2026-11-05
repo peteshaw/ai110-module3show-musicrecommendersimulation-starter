@@ -1,0 +1,101 @@
+{
+  "pop_happy": {
+    "label": "Happy Pop (default)",
+    "favorite_genre": "pop",
+    "favorite_mood": "happy",
+    "target_energy": 0.8,
+    "target_tempo_bpm": 120,
+    "target_danceability": 0.8,
+    "target_acousticness": 0.1,
+    "mood_tags": [
+      "euphoric",
+      "playful"
+    ],
+    "min_popularity": 60,
+    "target_decade": 2020
+  },
+  "chill_lofi": {
+    "label": "Chill Lofi / Study",
+    "favorite_genre": "lofi",
+    "favorite_mood": "chill",
+    "target_energy": 0.22,
+    "target_tempo_bpm": 85,
+    "target_danceability": 0.6,
+    "target_acousticness": 0.85,
+    "mood_tags": [
+      "calm",
+      "focused"
+    ],
+    "min_popularity": 40,
+    "target_decade": 2010
+  },
+  "intense_rock": {
+    "label": "Deep Intense Rock",
+    "favorite_genre": "rock",
+    "favorite_mood": "intense",
+    "target_energy": 0.9,
+    "target_tempo_bpm": 140,
+    "target_danceability": 0.55,
+    "target_acousticness": 0.08,
+    "mood_tags": [
+      "aggressive",
+      "gritty"
+    ],
+    "min_popularity": 50,
+    "target_decade": 2000
+  },
+  "edge_gym_sad": {
+    "label": "EDGE: high energy but sad mood (conflicting)",
+    "favorite_genre": "pop",
+    "favorite_mood": "sad",
+    "target_energy": 0.92,
+    "target_tempo_bpm": 128,
+    "target_danceability": 0.9,
+    "target_acousticness": 0.05,
+    "mood_tags": [
+      "aggressive"
+    ],
+    "min_popularity": 80,
+    "target_decade": 2020
+  },
+  "edge_acoustic_edm": {
+    "label": "EDGE: EDM genre but acoustic/mellow (conflicting)",
+    "favorite_genre": "edm",
+    "favorite_mood": "chill",
+    "target_energy": 0.95,
+    "target_tempo_bpm": 128,
+    "target_danceability": 0.9,
+    "target_acousticness": 0.9,
+    "mood_tags": [
+      "peaceful"
+    ],
+    "min_popularity": 30,
+    "target_decade": 2020
+  },
+  "edge_off_catalog": {
+    "label": "EDGE: genre/mood that do not exist in the catalog (cold start)",
+    "favorite_genre": "vaporwave",
+    "favorite_mood": "dreamy",
+    "target_energy": 0.5,
+    "target_tempo_bpm": 100,
+    "target_danceability": 0.5,
+    "target_acousticness": 0.5,
+    "mood_tags": [
+      "night-drive"
+    ],
+    "min_popularity": 99,
+    "target_decade": 1980
+  },
+  "edge_all_mid": {
+    "label": "EDGE: every target dead-center (does the energy weight break ties?)",
+    "favorite_genre": "pop",
+    "favorite_mood": "happy",
+    "target_energy": 0.5,
+    "target_tempo_bpm": 110,
+    "target_danceability": 0.5,
+    "target_acousticness": 0.5,
+    "mood_tags": [],
+    "min_popularity": 50,
+    "target_decade": 2010
+  }
+}

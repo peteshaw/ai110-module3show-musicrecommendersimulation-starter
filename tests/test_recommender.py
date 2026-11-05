@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 
 from src.recommender import (  # noqa: E402
     SCORING_MODES,
+    load_profiles,
     load_songs,
     max_score,
     recommend_songs,
@@ -68,6 +69,56 @@ class TestLoadSongs(unittest.TestCase):
     def test_no_duplicate_titles(self):
         titles = [s["title"] for s in load_songs()]
         self.assertEqual(len(titles), len(set(titles)))
+
+class TestLoadProfiles(unittest.TestCase):
+    """data/profiles.json is hand-edited data, so it needs the same checks as the CSV."""
+
+    def test_loads_every_profile(self):
+        profiles = load_profiles()
+        self.assertGreaterEqual(len(profiles), 5)
+        self.assertIn("pop_happy", profiles)
+
+    def test_numeric_targets_are_numbers_not_strings(self):
+        for name, prefs in load_profiles().items():
+            for key in ("target_energy", "target_danceability", "target_acousticness"):
+                self.assertIsInstance(prefs[key], float, f"{name}.{key}")
+            for key in ("target_tempo_bpm", "min_popularity", "target_decade"):
+                self.assertIsInstance(prefs[key], int, f"{name}.{key}")
+
+    def test_unit_targets_stay_in_range(self):
+        for name, prefs in load_profiles().items():
+            for key in ("target_energy", "target_danceability", "target_acousticness"):
+                self.assertGreaterEqual(prefs[key], 0.0, f"{name}.{key}")
+                self.assertLessEqual(prefs[key], 1.0, f"{name}.{key}")
+
+    def test_mood_tags_are_a_list_of_strings(self):
+        for name, prefs in load_profiles().items():
+            self.assertIsInstance(prefs["mood_tags"], list, name)
+            self.assertTrue(all(isinstance(t, str) for t in prefs["mood_tags"]), name)
+
+    def test_every_profile_scores_without_error(self):
+        songs = load_songs()
+        for name, prefs in load_profiles().items():
+            score, reasons = score_song(prefs, songs[0])
+            self.assertIsInstance(score, float, name)
+            self.assertTrue(reasons, name)
+
+    def test_malformed_json_raises(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            f.write("{not json")
+            path = f.name
+        with self.assertRaises(ValueError):
+            load_profiles(path)
+
+    def test_out_of_range_target_raises(self):
+        import json
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            json.dump({"bad": {"target_energy": 1.5}}, f)
+            path = f.name
+        with self.assertRaises(ValueError):
+            load_profiles(path)
 
 class TestScoreSong(unittest.TestCase):
     def test_returns_score_and_reasons(self):
