@@ -702,7 +702,8 @@ bother to look.
 **What would you try next if you extended this project?**
 
 I would replace the single `mood` word with a two-dimensional (valence, energy) target, because
-that single change fixes the biggest failure I found without adding any new data. After that I
+that single change fixes the biggest failure I foun
+d without adding any new data. After that I
 would add a proper listening simulation — an agent that "skips" a recommendation it should not
 like — and tune the weights against those simulated skips, so the weights stop being my opinion
 and start being evidence. Finally I would build the diversity mechanism properly: a hard cap per
