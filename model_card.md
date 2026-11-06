@@ -1,7 +1,6 @@
 # Model Card — VibeFinder 1.0
 
-*Last updated: November 2026. This card documents a classroom simulation, not a production
-service.*
+*Last updated: 20261106. This card documents a classroom project.
 
 ---
 
