@@ -189,38 +189,297 @@ songs.
 #### 1. `pop_happy` — Happy Pop (default)
 
 ```
-<<<OUT:pop_happy>>>
-```
-(repeat for chill_lofi, intense_rock, edge_gym_sad, edge_acoustic_edm, edge_off_catalog, edge_all_mid)
-```
-
-…and here is the one I'll show you in full, because it is the key evidence in the whole card:
-
-```
-PROFILE: EDGE: high energy but sad mood (conflicting)   [edge_gym_sad]
+==============================================================================
+PROFILE: Happy Pop (default)   [pop_happy]
 MODE: balanced  |  top 5 of 31 songs  |  diversity penalty: ON  |  max possible raw score: 8.05
-
-+---+------------------------+-----------------+------------------+-----------+-------+---------+
-| # | title                  | artist          | genre            | mood      | score | div.pen |
-+---+------------------------+-----------------+------------------+-----------+-------+---------+
-| 1 | Gym Hero               | Max Pulse       | pop              | intense   | 6.47  | -       |
-| 2 | Sunrise City           | Neon Echo       | pop              | happy     | 5.80  | -0.35   |
-| 3 | Thunder on Fifth Street| Blacktop Saints | hard rock        | confident | 4.32  | -       |
-| 4 | Storm Runner           | Voltline        | rock             | intense   | 4.24  | -       |
-| 5 | Paper Cut Skyline      | The Hollow Coast| alternative rock | angry     | 4.24  | -       |
-+---+----------------+-----------------+--------+----------+-------+---------+
+==============================================================================
++---+----------------+-------------------+-----------+---------+-------+---------+
+| # | title          | artist            | genre     | mood    | score | div.pen |
++---+----------------+-------------------+-----------+---------+-------+---------+
+| 1 | Sunrise City   | Neon Echo         | pop       | happy   | 7.94  | -       |
+| 2 | Gym Hero       | Max Pulse         | pop       | intense | 6.33  | -0.35   |
+| 3 | Rooftop Lights | Indigo Parade     | indie pop | happy   | 5.74  | -       |
+| 4 | Velvet Horizon | The Midnight Echo | edm       | happy   | 5.69  | -       |
+| 5 | Salsa del Sol  | Marisol Vega      | latin     | playful | 4.64  | -       |
++---+----------------+-------------------+-----------+---------+-------+---------+
 
 Why each song was chosen:
-  1. Gym Hero — Max Pulse (pop/intense)  score 7.02 = 87% of max
+  1. Sunrise City — Neon Echo (pop/happy)  score 7.94 = 99% of max
+       - genre match: pop (+2.0)
+       - mood match: happy (+1.0)
+       - energy 0.82 vs target 0.80 closeness 0.98 -> +1.96 pts
+       - tempo 118 vs target 120 -> closeness 0.97 (+0.97)
+       - danceability closeness 0.99 (+0.49)
+       - acousticness closeness 0.92 (+0.46)
+       - mood tag overlap [euphoric, playful] 1.00 (+0.50)
+       - popularity 78 meets floor 60 (+0.3)
+       - era 2020s vs target 2020s (same era, +0.25)
+  2. Gym Hero — Max Pulse (pop/intense)  score 6.33 = 74% of max  (diversity -0.35)
+       - genre match: pop (+2.0)
+       - energy 0.93 vs target 0.80 closeness 0.87 -> +1.74 pts
+       - tempo 132 vs target 120 -> closeness 0.85 (+0.85)
+       - danceability closeness 0.92 (+0.46)
+       - acousticness closeness 0.95 (+0.47)
+       - mood tag overlap [euphoric] 0.50 (+0.25)
+       - popularity 81 meets floor 60 (+0.3)
+       - era 2020s vs target 2020s (same era, +0.25)
+```
+#### 2. `chill_lofi` — Chill Lofi / Study
+
+```
+==============================================================================
+PROFILE: Chill Lofi / Study   [chill_lofi]
+MODE: balanced  |  top 5 of 31 songs  |  diversity penalty: ON  |  max possible raw score: 8.05
+==============================================================================
++---+---------------------+----------------+---------+---------+-------+---------+
+| # | title               | artist         | genre   | mood    | score | div.pen |
++---+---------------------+----------------+---------+---------+-------+---------+
+| 1 | Library Rain        | Paper Lanterns | lofi    | chill   | 7.57  | -       |
+| 2 | Midnight Coding     | LoRoom         | lofi    | chill   | 7.48  | -0.35   |
+| 3 | Spacewalk Thoughts  | Orbit Bloom    | ambient | chill   | 5.49  | -       |
+| 4 | Focus Flow          | LoRoom         | lofi    | focused | 6.55  | -1.10   |
+| 5 | Coffee Shop Stories | Slow Stereo    | jazz    | relaxed | 4.35  | -       |
++---+---------------------+----------------+---------+---------+-------+---------+
+
+Why each song was chosen:
+  1. Library Rain — Paper Lanterns (lofi/chill)  score 7.57 = 94% of max
+       - genre match: lofi (+2.0)
+       - mood match: chill (+1.0)
+       - energy 0.35 vs target 0.22 closeness 0.87 -> +1.74 pts
+       - tempo 72 vs target 85 -> closeness 0.84 (+0.84)
+       - danceability closeness 0.98 (+0.49)
+       - acousticness closeness 0.99 (+0.49)
+       - mood tag overlap [calm, focused] 1.00 (+0.50)
+       - popularity 65 meets floor 40 (+0.3)
+       - era 2020s vs target 2010s (1 decade apart, +0.21)
+  2. Midnight Coding — LoRoom (lofi/chill)  score 7.48 = 89% of max  (diversity -0.35)
+       - genre match: lofi (+2.0)
+       - mood match: chill (+1.0)
+       - energy 0.42 vs target 0.22 closeness 0.80 -> +1.60 pts
+       - tempo 78 vs target 85 -> closeness 0.91 (+0.91)
+       - danceability closeness 0.98 (+0.49)
+       - acousticness closeness 0.86 (+0.43)
+       - mood tag overlap [calm, focused] 1.00 (+0.50)
+       - popularity 71 meets floor 40 (+0.3)
+       - era 2010s vs target 2010s (same era, +0.25)
+```
+#### 3. `intense_rock` — Deep Intense Rock
+
+```
+==============================================================================
+PROFILE: Deep Intense Rock   [intense_rock]
+MODE: balanced  |  top 5 of 31 songs  |  diversity penalty: ON  |  max possible raw score: 8.05
+==============================================================================
++---+-------------------+------------------+------------------+---------+-------+---------+
+| # | title             | artist           | genre            | mood    | score | div.pen |
++---+-------------------+------------------+------------------+---------+-------+---------+
+| 1 | Storm Runner      | Voltline         | rock             | intense | 7.77  | -       |
+| 2 | Devil's Backbeat  | Moonshine Riot   | blues rock       | intense | 5.53  | -       |
+| 3 | Wildfire Season   | Canyon Riot      | garage rock      | intense | 5.45  | -       |
+| 4 | Gym Hero          | Max Pulse        | pop              | intense | 5.13  | -       |
+| 5 | Paper Cut Skyline | The Hollow Coast | alternative rock | angry   | 4.86  | -       |
++---+-------------------+------------------+------------------+---------+-------+---------+
+
+Why each song was chosen:
+  1. Storm Runner — Voltline (rock/intense)  score 7.77 = 97% of max
+       - genre match: rock (+2.0)
+       - mood match: intense (+1.0)
+       - energy 0.91 vs target 0.90 closeness 0.99 -> +1.98 pts
+       - tempo 152 vs target 140 -> closeness 0.85 (+0.85)
+       - danceability closeness 0.89 (+0.45)
+       - acousticness closeness 0.98 (+0.49)
+       - mood tag overlap [aggressive, gritty] 1.00 (+0.50)
+       - popularity 70 meets floor 50 (+0.3)
+       - era 2010s vs target 2000s (1 decade apart, +0.21)
+  2. Devil's Backbeat — Moonshine Riot (blues rock/intense)  score 5.53 = 69% of max
+       - mood match: intense (+1.0)
+       - energy 0.87 vs target 0.90 closeness 0.97 -> +1.94 pts
+       - tempo 132 vs target 140 -> closeness 0.90 (+0.90)
+       - danceability closeness 0.89 (+0.45)
+       - acousticness closeness 0.97 (+0.48)
+       - mood tag overlap [gritty] 0.50 (+0.25)
+       - popularity 60 meets floor 50 (+0.3)
+       - era 2010s vs target 2000s (1 decade apart, +0.21)
+```
+#### 4. `edge_gym_sad` — EDGE: high energy but sad mood (conflicting)
+
+```
+==============================================================================
+PROFILE: EDGE: high energy but sad mood (conflicting)   [edge_gym_sad]
+MODE: balanced  |  top 5 of 31 songs  |  diversity penalty: ON  |  max possible raw score: 8.05
+==============================================================================
++---+-------------------------+------------------+------------------+-----------+-------+---------+
+| # | title                   | artist           | genre            | mood      | score | div.pen |
++---+-------------------------+------------------+------------------+-----------+-------+---------+
+| 1 | Gym Hero                | Max Pulse        | pop              | intense   | 6.47  | -       |
+| 2 | Sunrise City            | Neon Echo        | pop              | happy     | 5.80  | -0.35   |
+| 3 | Thunder on Fifth Street | Blacktop Saints  | hard rock        | confident | 4.32  | -       |
+| 4 | Storm Runner            | Voltline         | rock             | intense   | 4.24  | -       |
+| 5 | Paper Cut Skyline       | The Hollow Coast | alternative rock | angry     | 4.24  | -       |
++---+-------------------------+------------------+------------------+-----------+-------+---------+
+
+Why each song was chosen:
+  1. Gym Hero — Max Pulse (pop/intense)  score 6.47 = 80% of max
        - genre match: pop (+2.0)
        - energy 0.93 vs target 0.92 closeness 0.99 -> +1.98 pts
-       - tempo 128 vs target 128 -> closeness 1.00 (+1.00)
+       - tempo 132 vs target 128 -> closeness 0.95 (+0.95)
        - danceability closeness 0.98 (+0.49)
        - acousticness closeness 1.00 (+0.50)
+       - mood tag overlap [none] 0.00 (+0.00)
+       - popularity 81 meets floor 80 (+0.3)
+       - era 2020s vs target 2020s (same era, +0.25)
+  2. Sunrise City — Neon Echo (pop/happy)  score 5.80 = 68% of max  (diversity -0.35)
+       - genre match: pop (+2.0)
+       - energy 0.82 vs target 0.92 closeness 0.90 -> +1.80 pts
+       - tempo 118 vs target 128 -> closeness 0.88 (+0.88)
+       - danceability closeness 0.89 (+0.45)
+       - acousticness closeness 0.87 (+0.43)
+       - mood tag overlap [none] 0.00 (+0.00)
+       - era 2020s vs target 2020s (same era, +0.25)
+```
+#### 5. `edge_acoustic_edm` — EDGE: EDM genre but acoustic/mellow (conflicting)
+
+```
+==============================================================================
+PROFILE: EDGE: EDM genre but acoustic/mellow (conflicting)   [edge_acoustic_edm]
+MODE: balanced  |  top 5 of 31 songs  |  diversity penalty: ON  |  max possible raw score: 8.05
+==============================================================================
++---+------------------+-------------------+------------+---------+-------+---------+
+| # | title            | artist            | genre      | mood    | score | div.pen |
++---+------------------+-------------------+------------+---------+-------+---------+
+| 1 | Velvet Horizon   | The Midnight Echo | edm        | happy   | 5.64  | -       |
+| 2 | Gym Hero         | Max Pulse         | pop        | intense | 4.03  | -       |
+| 3 | Library Rain     | Paper Lanterns    | lofi       | chill   | 3.97  | -       |
+| 4 | Hyperfocus       | Null Signal       | techno     | focused | 3.82  | -       |
+| 5 | Devil's Backbeat | Moonshine Riot    | blues rock | intense | 3.78  | -       |
++---+------------------+-------------------+------------+---------+-------+---------+
+
+Why each song was chosen:
+  1. Velvet Horizon — The Midnight Echo (edm/happy)  score 5.64 = 70% of max
+       - genre match: edm (+2.0)
+       - energy 0.78 vs target 0.95 closeness 0.83 -> +1.66 pts
+       - tempo 120 vs target 128 -> closeness 0.90 (+0.90)
+       - danceability closeness 0.90 (+0.45)
+       - acousticness closeness 0.25 (+0.12)
+       - mood tag overlap [none] 0.00 (+0.00)
+       - popularity 70 meets floor 30 (+0.3)
+       - era 2010s vs target 2020s (1 decade apart, +0.21)
+  2. Gym Hero — Max Pulse (pop/intense)  score 4.03 = 50% of max
+       - energy 0.93 vs target 0.95 closeness 0.98 -> +1.96 pts
+       - tempo 132 vs target 128 -> closeness 0.95 (+0.95)
+       - danceability closeness 0.98 (+0.49)
+       - acousticness closeness 0.15 (+0.08)
+       - mood tag overlap [none] 0.00 (+0.00)
+       - popularity 81 meets floor 30 (+0.3)
+       - era 2020s vs target 2020s (same era, +0.25)
+```
+#### 6. `edge_off_catalog` — EDGE: genre/mood absent from the catalog (cold start)
+
+```
+==============================================================================
+PROFILE: EDGE: genre/mood that do not exist in the catalog (cold start)   [edge_off_catalog]
+MODE: balanced  |  top 5 of 31 songs  |  diversity penalty: ON  |  max possible raw score: 8.05
+==============================================================================
++---+-----------------+-----------------+------------------+---------+-------+---------+
+| # | title           | artist          | genre            | mood    | score | div.pen |
++---+-----------------+-----------------+------------------+---------+-------+---------+
+| 1 | Midnight Coding | LoRoom          | lofi             | chill   | 4.03  | -       |
+| 2 | Slow Collapse   | Marble Youth    | shoegaze         | wistful | 3.96  | -       |
+| 3 | Quiet Machines  | Glass Cathedral | alternative rock | calm    | 3.86  | -       |
+| 4 | Paper Lungs     | Ash and Ember   | emo              | sad     | 3.84  | -       |
+| 5 | Chrome Requiem  | Synth Wraith    | synthwave        | dark    | 3.77  | -       |
++---+-----------------+-----------------+------------------+---------+-------+---------+
+
+Why each song was chosen:
+  1. Midnight Coding — LoRoom (lofi/chill)  score 4.03 = 50% of max
+       - energy 0.42 vs target 0.50 closeness 0.92 -> +1.84 pts
+       - tempo 78 vs target 100 -> closeness 0.72 (+0.72)
+       - danceability closeness 0.88 (+0.44)
+       - acousticness closeness 0.79 (+0.40)
+       - mood tag overlap [night-drive] 1.00 (+0.50)
+       - era 2010s vs target 1980s (3 decades apart, +0.12)
+  2. Slow Collapse — Marble Youth (shoegaze/wistful)  score 3.96 = 49% of max
+       - energy 0.52 vs target 0.50 closeness 0.98 -> +1.96 pts
+       - tempo 104 vs target 100 -> closeness 0.95 (+0.95)
+       - danceability closeness 0.98 (+0.49)
+       - acousticness closeness 0.88 (+0.44)
+       - mood tag overlap [none] 0.00 (+0.00)
+       - era 2010s vs target 1980s (3 decades apart, +0.12)
+```
+#### 7. `edge_all_mid` — EDGE: every target dead-centre
+
+```
+==============================================================================
+PROFILE: EDGE: every target dead-center (does the energy weight break ties?)   [edge_all_mid]
+MODE: balanced  |  top 5 of 31 songs  |  diversity penalty: ON  |  max possible raw score: 8.05
+==============================================================================
++---+----------------+-------------------+-----------+---------+-------+---------+
+| # | title          | artist            | genre     | mood    | score | div.pen |
++---+----------------+-------------------+-----------+---------+-------+---------+
+| 1 | Sunrise City   | Neon Echo         | pop       | happy   | 6.46  | -       |
+| 2 | Rooftop Lights | Indigo Parade     | indie pop | happy   | 4.62  | -       |
+| 3 | Gym Hero       | Max Pulse         | pop       | intense | 4.96  | -0.35   |
+| 4 | Velvet Horizon | The Midnight Echo | edm       | happy   | 4.54  | -       |
+| 5 | Slow Collapse  | Marble Youth      | shoegaze  | wistful | 4.07  | -       |
++---+----------------+-------------------+-----------+---------+-------+---------+
+
+Why each song was chosen:
+  1. Sunrise City — Neon Echo (pop/happy)  score 6.46 = 80% of max
+       - genre match: pop (+2.0)
+       - mood match: happy (+1.0)
+       - energy 0.82 vs target 0.50 closeness 0.68 -> +1.36 pts
+       - tempo 118 vs target 110 -> closeness 0.90 (+0.90)
+       - danceability closeness 0.71 (+0.35)
+       - acousticness closeness 0.68 (+0.34)
+       - popularity 78 meets floor 50 (+0.3)
+       - era 2020s vs target 2010s (1 decade apart, +0.21)
+  2. Rooftop Lights — Indigo Parade (indie pop/happy)  score 4.62 = 57% of max
+       - mood match: happy (+1.0)
+       - energy 0.76 vs target 0.50 closeness 0.74 -> +1.48 pts
+       - tempo 124 vs target 110 -> closeness 0.82 (+0.82)
+       - danceability closeness 0.68 (+0.34)
+       - acousticness closeness 0.85 (+0.42)
+       - popularity 62 meets floor 50 (+0.3)
+       - era 2010s vs target 2010s (same era, +0.25)
 ```
 
-Note what is **missing**: no mood match. The user asked for `sad` and got `intense`, `happy` and
-`euphoric` in the top three.
+#### The one to read closely: `edge_gym_sad`
+
+Block 4 is the key evidence in the whole card. The listener asked for mood `sad` and got
+*Gym Hero* (intense), *Sunrise City* (happy) and *Thunder on Fifth Street* (confident) in the
+top three — and the reason list for *Gym Hero* contains **no mood line at all**, because the
+mood did not match. The mismatch is not hidden; it is simply worth less than the loudness
+terms. Compare it against block 1, where *Sunrise City* earns a `mood match: happy (+1.0)` line
+in the same position.
+
+### Face validity: does `chill_lofi` feel right?
+
+I picked the one profile I have strong opinions about — study lofi — and read the top 5 against
+what I would actually play. Three of the five are right (*Library Rain*, *Midnight Coding*,
+*Coffee Shop Stories*). Two are not, and both failures are instructive.
+
+**Position 4 is the one that made me stop.** *Focus Flow* (lofi, `focused`) has a raw score of
+6.55 — higher than *Spacewalk Thoughts* at 5.49 — yet it is ranked *below* it. That is the
+diversity penalty working: *Focus Flow* is the third `lofi` song and the second *LoRoom* track
+in the list, so it takes both penalties and loses 1.10 points. Musically I agree with the
+result and disagree with the reason. The model demoted *Focus Flow* for being too similar to
+songs already shown, which is exactly right, but it only got there by accident — it would have
+ranked 3rd on merit, above a genuinely calmer track.
+
+**Position 3 is the real disagreement.** *Spacewalk Thoughts* is ambient, not lofi. I asked for
+lofi. The model correctly refused to give it the genre bonus (it loses 2.00 points there), and
+then awarded it the slot anyway, because it wins on the two things I care about most in a study
+playlist: it is quieter (energy closeness 0.94 vs 0.82) and it is actually `chill` (a mood match
+worth 1.00). *Focus Flow* by contrast is labelled `focused`, not `chill`, so it forfeits the
+mood point entirely — a distinction that is invisible to me, since both tracks are fine study
+music.
+
+**What this tells me.** The single-mood-label rule is the problem, not the weights. Half the
+reason *Focus Flow* lost is that its mood word is `focused` and my profile's is `chill`, even
+though I would happily put both in the same playlist. The catalog forces a song to pick one, and
+the profile forces the listener to pick one, so two compatible things look incompatible to the
+arithmetic. This is limitation 3 in the data section showing up as a wrong ranking, and it is
+the strongest argument for the mood-distribution idea in "What I would build next".
 
 ### Profile-by-profile comparisons
 
@@ -252,23 +511,32 @@ Shared = songs common to both profiles' top 5 (out of 5).
 
 ### What surprised me
 
-1. **The strongest pair of opposites produced *identical* lists.** `intense_rock` and
-   `edge_gym_sad` share 4 of 5 songs despite disagreeing about the entire emotional point of the
-   music. I expected a wrong answer; I did not expect the wrongness to be that extreme.
+1. **The strongest pair of opposites produced almost *identical* lists.** `intense_rock` and
+   `edge_gym_sad` share 3 of 5 songs (*Gym Hero*, *Storm Runner*, *Paper Cut Skyline*) despite
+   disagreeing about the entire emotional point of the music — one wants `intense`, the other
+   wants `sad`. I expected a wrong answer; I did not expect the wrongness to be that extreme.
 2. **Being "too high" never hurts enough.** My intuition said a sad, intense listener was
    contradictory and would get a muddled list. Instead the model resolved the conflict silently
    and consistently in favour of loudness — it never surfaced the contradiction.
 3. **The dataset was not the main problem.** The textbook bias ("60% of the catalog is pop") is
-   absent here: only 11% of songs are pop and every artist is unique. The bias came from the
-   *weights*, which is more interesting and much harder to see.
+   absent here: only 6.5% of songs are pop, and 29 artists across 31 songs is close to unique.
+   The bias came from the *weights*, which is more interesting and much harder to see.
 4. **Most of the catalog is loud.** 19 of 31 songs have energy ≥ 0.70, so a mid-energy listener
    is structurally punished by a linear distance rule.
 5. **The diversity penalty barely did anything.** An added fairness mechanism can be present,
    tested and almost inert — a good reminder to measure a safety feature rather than assume
    shipping it helped.
-6. **The explanations were the most useful part.** Reading "genre mismatch: country vs pop
-   (+0.0)" next to "energy ... +1.72" is what made the bias obvious. The reasons exist for the
-   user, but they turned out to be the best debugging tool I had.
+6. **The explanations were the most useful part.** In block 4, the line
+   "mood tag overlap [none] 0.00 (+0.00)" sits directly above "energy 0.93 vs target 0.92
+   closeness 0.99 -> +1.98 pts" — the same block awards zero for the emotional request and
+   nearly two points for the loudness one, and there is no mood line at all between them. That
+   juxtaposition is what made the bias obvious. The reasons exist for the user, but they turned
+   out to be the best debugging tool I had.
+7. **The printed reasons hide the misses.** `main.py` skips any line containing `(+0.0)`, so
+   "mood mismatch: intense vs sad" never reaches the terminal — the *absence* of a mood line is
+   the only signal, and absence is much easier to miss than a zero. The explicit mismatch text
+   is available from `score_song(..., include_misses=True)`, which is how I confirmed it. A
+   transparency feature that filters out bad news is only half transparent.
 
 ### Sensitivity experiments (Phase 4, Step 3)
 

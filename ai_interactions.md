@@ -272,6 +272,51 @@ card. It also missed the biggest one — the **mood-versus-energy conflict** —
 reading the full 18-song ranking. The AI's most useful contribution was the popularity-floor
 critique; the most important finding was mine.
 
+### 4e. Re-verifying Phase 4 after the catalog grew (18 → 31 songs)
+
+The prompts above and the numbers in them were recorded against an 18-song catalog. The catalog
+has since grown to 31 songs, so every Phase 4 figure had to be re-measured rather than re-read.
+The task given to the AI was simply "check whether Phase 4 is actually done" — the re-measuring
+below is its audit, not a new prompt I wrote.
+
+Every number was produced by running `recommend_songs()` against the real catalog and printing
+the result; nothing was updated by reading prose. Six figures had moved and are now corrected in
+the card —
+
+| Claim | Phase 4 as written | Re-measured |
+|---|---|---|
+| `sad` song rank for `edge_gym_sad` | 11th of 18 | 13th of 31 |
+| `intense_rock` vs `edge_gym_sad` overlap | 4 of 5 | 3 of 5 |
+| pop share of catalog | 11% | 6.5% |
+| songs at energy ≥ 0.70 | 9 of 18 | 19 of 31 |
+| cold-start score band | 2.16–3.86 | 2.16–4.03 |
+| profiles the diversity penalty changed | 1 of 7 | 3 of 7 |
+
+Three claims survived unchanged: *Gym Hero* still tops 5 of 7 lists, the 4.55 side-feature
+ceiling (energy + tempo + danceability + acousticness + popularity + era, deliberately excluding
+mood tags), and the headline mood-versus-energy bias itself.
+
+All 21 pairwise overlap counts in the comparison table were also re-derived programmatically and
+matched, which is the one part of the card that turned out to be fully current already.
+
+**What this round added that was missing before.** Two genuine gaps, not number updates:
+
+- The model card had a `<<<OUT:pop_happy>>>` placeholder and a literal "(repeat for
+  chill_lofi, …)" note where Step 1's per-profile output should have been. All seven blocks are
+  now real captured output.
+- Step 2 asks whether the results "feel right" and I had never actually written it down — the
+  card listed *face validity* as an evaluation method but contained no face-validity finding.
+  Added one, from `chill_lofi`, where the model demotes *Focus Flow* to 4th for being too
+  similar to songs already shown. I agree with the ranking and not with the arithmetic behind
+  it, which traced to the single-mood-label limitation rather than to any weight.
+
+**One correction to my own earlier reasoning.** I first wrote that the printed reasons showed
+"mood mismatch: intense vs sad (+0.0)". They do not — `main.py` filters every line containing
+`(+0.0)`, so the mismatch is invisible in the terminal and only the *absence* of a mood line
+remains. Caught it by grepping the filter condition rather than trusting my memory of the code.
+Logged as finding 7 in the surprised list, because a transparency feature that hides its own
+bad news is worth naming.
+
 ---
 
 ## Optional challenges
