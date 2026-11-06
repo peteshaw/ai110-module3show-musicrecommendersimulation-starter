@@ -4,9 +4,7 @@ Run:  python -m scripts.compare_profiles
 """
 
 import sys
-
 sys.path.insert(0, ".")
-
 from src.main import EXPERIMENTS  # noqa: E402
 from src.recommender import (  # noqa: E402
     SCORING_MODES,
@@ -17,10 +15,26 @@ from src.recommender import (  # noqa: E402
 )
 
 def top_names(prefs, songs, k=5, mode="balanced", diversify=True):
+    """Return just the song titles of a ranking, for compact side-by-side output.
+
+    A thin wrapper over recommend_songs() so sections B and C can print one
+    line per configuration instead of a full table.
+    """
     return [r["song"]["title"] for r in recommend_songs(
         prefs, songs, k=k, mode=mode, diversify=diversify)]
 
 def main():
+    """Run the three comparison studies and print them to stdout.
+
+    A. every profile's top 5 in balanced mode, with raw and final scores
+    B. pairwise overlap between profiles, testing whether the rule separates
+       genuinely different tastes or collapses onto the same loud songs
+    C. the two sensitivity experiments plus the diversity penalty on/off,
+       showing how stable each ranking is under a changed weighting
+
+    Reads data/songs.csv and data/profiles.json, so it reports on whatever the
+    current catalog holds rather than on hardcoded expectations.
+    """
     songs = load_songs()
     profiles = load_profiles()
     print(f"Catalog: {len(songs)} songs\n")

@@ -83,7 +83,11 @@ def resolve_mode(mode_name, experiment):
     return override, f"{mode_name} + {experiment} {override}"
 
 def build_parser(profiles):
-    """Define the CLI surface."""
+    """Define the CLI surface and return the configured argparse parser.
+
+    ``profiles`` supplies the valid --profile names, so the help text and the
+    error message stay in sync with data/profiles.json without hardcoding them.
+    """
     parser = argparse.ArgumentParser(description="VibeFinder 1.0 - content-based music recommender")
     parser.add_argument("--profile", default=DEFAULT_PROFILE,
                         help=f"profile name, or 'all'. Options: {', '.join(profiles)}")

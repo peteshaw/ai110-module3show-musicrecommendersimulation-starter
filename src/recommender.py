@@ -425,6 +425,7 @@ def format_recommendations(results, mode="balanced", use_tabulate=None, compact=
 def _ascii_table(headers, rows, max_cell=None):
     """Minimal stdlib table renderer so the CLI works with zero dependencies."""
     def cell(value):
+        """Stringify one table cell, truncating with an ellipsis if max_cell is set."""
         text = str(value)
         if max_cell and len(text) > max_cell:
             return text[: max_cell - 3] + "..."
