@@ -146,8 +146,9 @@ were deployed, the same handful of songs would be served forever.
 
 Listeners whose taste is *defined by mood rather than genre* (sad, melancholic, nostalgic),
 listeners who want **mid-energy** music (both loud and quiet songs are far from a 0.5 target,
-and half the catalog sits above 0.70 energy), listeners who like music that has not been
-popular, and anyone whose favourite genre has exactly one song in the catalog.
+and 19 of the 31 songs sit above 0.70 energy), listeners who like music that has not been
+popular, and anyone whose favourite genre has exactly one song in the catalog — which is 20 of
+the 25 genres here.
 
 ---
 
@@ -691,9 +692,9 @@ description of the code.
 I expected 20 lines of addition to look like arithmetic. Instead the lofi list (quiet, acoustic,
 calm) and the pop list (bright, danceable, 2020s) had **zero songs in common**, and both lists
 read as if a person had chosen them. What convinced me was reading the *reasons* out loud, not
-the scores: "genre match pop, mood match happy, energy 0.78 vs target 0.80" is a sentence a
-human would say. The magic is not in the model — it is in the fact that a handful of well-chosen
-attributes already describe a "vibe" well enough. The flip side arrived immediately: the same
+the scores: "genre match: pop (+2.0), mood match: happy (+1.0), energy 0.82 vs target 0.80
+closeness 0.98" is a sentence a human would say. The magic is not in the model — it is in the
+fact that a handful of well-chosen attributes already describe a "vibe" well enough. The flip side arrived immediately: the same
 simple maths produced a filter bubble just as convincingly, and the *Gym Hero* result was
 reported with total confidence. Simple does not mean safe; it means the bias is legible if you
 bother to look.
